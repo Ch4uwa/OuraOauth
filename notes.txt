@@ -1,0 +1,6 @@
+self.redirect_uri = redirect_uri  # 'http://127.0.0.1:5353/callback'
+self.client_id = client_id  # os.getenv('OURA_CLIENT_ID')
+self.client_secret = client_secret  # os.getenv('OURA_CLIENT_SECRET')
+self.AUTH_URL = auth_url  # 'https://cloud.ouraring.com/oauth/authorize'
+self.TOKEN_URL = token_url  # 'https://api.ouraring.com/oauth/token'
+self.SCOPE = scopes  # ['email', 'personal', 'daily']

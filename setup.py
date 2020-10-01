@@ -17,7 +17,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-
+        "requests",
+        "requests_oauthlib",
     ],
     python_requires=">=3.8",
 )

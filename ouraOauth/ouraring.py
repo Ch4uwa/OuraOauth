@@ -1,7 +1,3 @@
-"""
-Author: Martin Karlsson
-Email: mrtn.karlsson@gmail.com
-"""
 import json
 
 from requests_oauthlib import OAuth2Session
@@ -20,12 +16,12 @@ class OuraAuth:
     """
 
     def __init__(self, redirect_uri, client_id, client_secret, auth_url, token_url, scopes=None):
-        self.redirect_uri = redirect_uri  # 'http://127.0.0.1:5353/callback'
-        self.client_id = client_id  # os.getenv('OURA_CLIENT_ID')
-        self.client_secret = client_secret  # os.getenv('OURA_CLIENT_SECRET')
-        self.AUTH_URL = auth_url  # 'https://cloud.ouraring.com/oauth/authorize'
-        self.TOKEN_URL = token_url  # 'https://api.ouraring.com/oauth/token'
-        self.SCOPE = scopes  # ['email', 'personal', 'daily']
+        self.redirect_uri = redirect_uri
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.AUTH_URL = auth_url
+        self.TOKEN_URL = token_url
+        self.SCOPE = scopes
 
         self.session = OAuth2Session(
             client_id=self.client_id, redirect_uri=self.redirect_uri)
@@ -51,9 +47,12 @@ class OuraAuth:
 
 # class for interacting with Ouras API
 class OuraClient:
+    """
+    """
+
     def __init__(self, client_id, client_secret, token, token_saver, refresh_url, base_api_url):
-        self.client_id = client_id  # os.getenv('OURA_CLIENT_ID')
-        self.client_secret = client_secret  # os.getenv('OURA_CLIENT_SECRET')
+        self.client_id = client_id
+        self.client_secret = client_secret
 
         self.refresh_url = refresh_url  # 'https://api.ouraring.com/oauth/token'
         self.api_url = base_api_url  # 'https://api.ouraring.com'
