@@ -27,12 +27,22 @@ class OuraAuth:
             client_id=self.client_id, redirect_uri=self.redirect_uri)
 
     def oura_authorize(self, scope=None):
+        """Returns URL to authorize app for user data.
+        If user approves a response will be sent to callback.
+
+        :return: authorization_url, state
+        """
         self.session.scope = scope or self.SCOPE
+        # TODO
         print(self.session.scope)
 
         return self.session.authorization_url(self.AUTH_URL)
 
     def get_token(self, auth_response=None, code=None):
+        """Used to trade authorization response with token.
+
+        :return: token
+        """
         if auth_response is not None and code is None:
             token = self.session.fetch_token(self.TOKEN_URL, authorization_response=auth_response,
                                              client_secret=self.client_secret)
@@ -47,7 +57,15 @@ class OuraAuth:
 
 # class for interacting with Ouras API
 class OuraClient:
-    """
+    """Construct a client to use.
+
+    :param client_id: App id from registration
+    :param client_secret: App secret from registration
+    :param token: Token dictionary, must include access_token and token_type
+    :param token_saver: Method with one argument, token, to be used to update your token database on automatic token refresh.
+    :param refresh_url: Refresh token endpoint URL, must be HTTPS. Supply this if you wish the client to automatically refresh your access tokens.
+    :param base_api_url: Base API URL
+
     """
 
     def __init__(self, client_id, client_secret, token, token_saver, refresh_url, base_api_url):
