@@ -3,25 +3,32 @@ Author: Martin Karlsson
 Email: mrtn.karlsson@gmail.com
 """
 import json
-import os
 
 from requests_oauthlib import OAuth2Session
-from dotenv import load_dotenv
-from saves import writeFile
-
-load_dotenv()
 
 
 class OuraAuth:
-    def __init__(self):
-        self.redirect_uri = 'http://127.0.0.1:5353/callback'
-        self.client_id = os.getenv('OURA_CLIENT_ID')
-        self.client_secret = os.getenv('OURA_CLIENT_SECRET')
-        self.AUTH_URL = 'https://cloud.ouraring.com/oauth/authorize'
-        self.TOKEN_URL = 'https://api.ouraring.com/oauth/token'
-        self.SCOPE = ['email', 'personal', 'daily']
+    """Construct a Oauth2 Oura session.
 
-        self.session = OAuth2Session(client_id=self.client_id, redirect_uri=self.redirect_uri)
+    :param client_id: your oura app id.
+    :param client_secret: your oura app secret.
+    :param redirect_uri: Your registered callback address.
+    :param auth_url: oura oauth authorize url.
+    :param token_url: oura oauth token url.
+    :param scopes: list of scopes to access.
+
+    """
+
+    def __init__(self, redirect_uri, client_id, client_secret, auth_url, token_url, scopes=None):
+        self.redirect_uri = redirect_uri  # 'http://127.0.0.1:5353/callback'
+        self.client_id = client_id  # os.getenv('OURA_CLIENT_ID')
+        self.client_secret = client_secret  # os.getenv('OURA_CLIENT_SECRET')
+        self.AUTH_URL = auth_url  # 'https://cloud.ouraring.com/oauth/authorize'
+        self.TOKEN_URL = token_url  # 'https://api.ouraring.com/oauth/token'
+        self.SCOPE = scopes  # ['email', 'personal', 'daily']
+
+        self.session = OAuth2Session(
+            client_id=self.client_id, redirect_uri=self.redirect_uri)
 
     def oura_authorize(self, scope=None):
         self.session.scope = scope or self.SCOPE
@@ -44,12 +51,12 @@ class OuraAuth:
 
 # class for interacting with Ouras API
 class OuraClient:
-    def __init__(self, token, token_saver):
-        self.client_id = os.getenv('OURA_CLIENT_ID')
-        self.client_secret = os.getenv('OURA_CLIENT_SECRET')
+    def __init__(self, client_id, client_secret, token, token_saver, refresh_url, base_api_url):
+        self.client_id = client_id  # os.getenv('OURA_CLIENT_ID')
+        self.client_secret = client_secret  # os.getenv('OURA_CLIENT_SECRET')
 
-        self.refresh_url = 'https://api.ouraring.com/oauth/token'
-        self.api_url = 'https://api.ouraring.com'
+        self.refresh_url = refresh_url  # 'https://api.ouraring.com/oauth/token'
+        self.api_url = base_api_url  # 'https://api.ouraring.com'
 
         extra = {
             'client_id': self.client_id,
@@ -119,10 +126,10 @@ class OuraClient:
     def _make_request(self, url, method=None, data=None, **kwargs):
         data = data or {}
         method = method or 'GET'
-        response = self.client_session.request(method=method, url=url, data=data, **kwargs)
+        response = self.client_session.request(
+            method=method, url=url, data=data, **kwargs)
 
         if response.status_code == 401:
-            writeFile.write('response401', '401 error when request was made')
             print(f'Error {response.status_code}')
 
         payload = json.loads(response.content.decode('utf8'))
