@@ -11,7 +11,7 @@ class OuraAuth:
     :param redirect_uri: Your registered callback address.
     :param auth_url: oura oauth authorize url.
     :param token_url: oura oauth token url.
-    :param scopes: list of scopes to access.
+    :param scopes: list of scopes to access. Defaults to [email, personal, daily]
 
     """
 
