@@ -4,6 +4,9 @@ from setuptools import find_packages, setup
 with open("README.md", "r") as rm:
     long_description = rm.read()
 
+with open("requirements.txt", "r") as f:
+    requirements = [_ for _ in f.readlines()]
+
 
 setup(
     name="ouraOauth",
@@ -16,9 +19,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        "requests",
-        "requests_oauthlib",
-    ],
+    install_requires=requirements,
     python_requires=">=3.8",
 )
