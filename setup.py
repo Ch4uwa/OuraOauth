@@ -5,7 +5,7 @@ with open("README.md", "r") as rm:
     long_description = rm.read()
 
 with open("requirements.txt", "r") as f:
-    requirements = [_ for _ in f.readlines()]
+    requirements = f.read()
 
 
 setup(

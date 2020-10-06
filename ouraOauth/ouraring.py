@@ -62,10 +62,11 @@ class OuraClient:
     :param client_id: App id from registration
     :param client_secret: App secret from registration
     :param token: Token dictionary, must include access_token and token_type
-    :param token_saver: Method with one argument, token, to be used to update your token database on automatic token refresh.
-    :param refresh_url: Refresh token endpoint URL, must be HTTPS. Supply this if you wish the client to automatically refresh your access tokens.
+    :param token_saver: Method with one argument, token,
+        to be used to update your token database on automatic token refresh.
+    :param refresh_url: Refresh token endpoint URL, must be HTTPS.
+        Supply this if you wish the client to automatically refresh your access tokens.
     :param base_api_url: Base API URL
-
     """
 
     def __init__(self, client_id, client_secret, token, token_saver, refresh_url, base_api_url):
